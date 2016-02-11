@@ -80,7 +80,8 @@ Sources/Events.o: ../Sources/Events.c \
  C:/Users/cccarr/workspaces/Lab2/serial_echoLab2/Generated_Code/board.h \
  C:/Users/cccarr/workspaces/Lab2/serial_echoLab2/Generated_Code/pin_init.h \
  C:/Users/cccarr/workspaces/Lab2/serial_echoLab2/SDK/rtos/mqx/mqx/source/bsp/bsp_config.h \
- C:/Users/cccarr/workspaces/Lab2/serial_echoLab2/SDK/rtos/mqx/mqx/source/include/message.h
+ C:/Users/cccarr/workspaces/Lab2/serial_echoLab2/SDK/rtos/mqx/mqx/source/include/message.h \
+ ../Sources/server.h
 
 C:/Users/cccarr/workspaces/Lab2/serial_echoLab2/Generated_Code/Cpu.h:
 
@@ -247,3 +248,5 @@ C:/Users/cccarr/workspaces/Lab2/serial_echoLab2/Generated_Code/pin_init.h:
 C:/Users/cccarr/workspaces/Lab2/serial_echoLab2/SDK/rtos/mqx/mqx/source/bsp/bsp_config.h:
 
 C:/Users/cccarr/workspaces/Lab2/serial_echoLab2/SDK/rtos/mqx/mqx/source/include/message.h:
+
+../Sources/server.h:

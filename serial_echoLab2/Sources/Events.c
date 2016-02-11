@@ -34,23 +34,24 @@
 #include <mqx.h>
 #include <bsp.h>
 #include <message.h>
+#include "server.h"
+
 
 #ifdef __cplusplus
 extern "C" {
-#endif 
+#endif
 
-typedef struct server_message
-{
-   MESSAGE_HEADER_STRUCT   HEADER;
-   unsigned char                   DATA[5];
-} SERVER_MESSAGE, * SERVER_MESSAGE_PTR;
-
-typedef struct my_isr_struct
-{
-   void                 *OLD_ISR_DATA;
-   INT_ISR_FPTR          OLD_ISR;
-   _mqx_uint             COUNTER;
-} MY_ISR_STRUCT, * MY_ISR_STRUCT_PTR;
+//typedef struct server_message
+//{
+//   MESSAGE_HEADER_STRUCT   HEADER;
+//   unsigned char                   DATA[5];
+//} SERVER_MESSAGE, * SERVER_MESSAGE_PTR;
+//
+//SERVER_MESSAGE_PTR msg_ptr;
+//  _mqx_uint          i;
+//  _queue_id          server_qid;
+//  bool            result;
+//  _task_id           task_id;
 
 /* User includes (#include below this line is not maintained by Processor Expert) */
 
@@ -67,11 +68,41 @@ typedef struct my_isr_struct
 */
 void myUART_RxCallback(uint32_t instance, void * uartState)
 {
-	 SERVER_MESSAGE_PTR msg_ptr;
-	   _queue_id          client_qid;
-	   bool            result;
+	SERVER_MESSAGE_PTR msg_ptr;
+
+
+	bool            result;
   /* Write your code here ... */
-	UART_DRV_SendData(myUART_IDX, myRxBuff, sizeof(myRxBuff));
+	//UART_DRV_SendData(myUART_IDX, myRxBuff, sizeof(myRxBuff));
+
+		   //client_qid  = _msgq_open((_queue_number)(CLIENT_QUEUE_BASE), 0);
+
+//		   if (client_qid == 0) {
+//		      printf("\nCould not open a client message queue\n");
+//		     // _task_block();
+//		   }
+
+		   msg_ptr = (SERVER_MESSAGE_PTR)_msg_alloc(message_pool);
+
+		   	      if (msg_ptr == NULL) {
+		   	         //printf("\nCould not allocate a message\n");
+		   	         //_task_block();
+		   	      }
+
+		      msg_ptr->HEADER.SOURCE_QID = message_qid;
+		        msg_ptr->HEADER.TARGET_QID = _msgq_get_id(0, SERVER_QUEUE);
+		        msg_ptr->HEADER.SIZE = sizeof(MESSAGE_HEADER_STRUCT) +
+		           strlen((char *)msg_ptr->DATA) + 1;
+		        msg_ptr->DATA[0] = (myRxBuff);
+
+		        result = _msgq_send(msg_ptr);
+
+		        if (result != TRUE) {
+		           //printf("\nCould not send a message\n");
+		           //_task_block();
+		        }
+
+		        UART_DRV_SendData(myUART_IDX, myRxBuff, sizeof(myRxBuff));
 
 	return;
 }

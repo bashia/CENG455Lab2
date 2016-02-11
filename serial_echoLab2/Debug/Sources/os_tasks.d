@@ -76,7 +76,8 @@ Sources/os_tasks.o: ../Sources/os_tasks.c \
  C:/Users/cccarr/workspaces/Lab2/serial_echoLab2/Generated_Code/SerialTask.h \
  C:/Users/cccarr/workspaces/Lab2/serial_echoLab2/Generated_Code/myUART.h \
  ../Sources/rtos_main_task.h ../Sources/os_tasks.h \
- C:/Users/cccarr/workspaces/Lab2/serial_echoLab2/SDK/rtos/mqx/mqx/source/include/message.h
+ C:/Users/cccarr/workspaces/Lab2/serial_echoLab2/SDK/rtos/mqx/mqx/source/include/message.h \
+ ../Sources/server.h
 
 C:/Users/cccarr/workspaces/Lab2/serial_echoLab2/Generated_Code/Cpu.h:
 
@@ -235,3 +236,5 @@ C:/Users/cccarr/workspaces/Lab2/serial_echoLab2/Generated_Code/myUART.h:
 ../Sources/os_tasks.h:
 
 C:/Users/cccarr/workspaces/Lab2/serial_echoLab2/SDK/rtos/mqx/mqx/source/include/message.h:
+
+../Sources/server.h:

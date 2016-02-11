@@ -2441,7 +2441,7 @@
     </GenFiles>
     <SignalListFile />
     <DestinationCompiler>GNUC</DestinationCompiler>
-    <ProjectModificationStamp>3</ProjectModificationStamp>
+    <ProjectModificationStamp>4</ProjectModificationStamp>
   </Options>
   <CpuID_1>
     <Generated>true</Generated>
@@ -2450,7 +2450,7 @@
     <GenDriverVersion>01.00</GenDriverVersion>
     <GenEventModule>Events</GenEventModule>
     <HeaderAge>1212252381</HeaderAge>
-    <CodeAge>1212252381</CodeAge>
+    <CodeAge>1212838009</CodeAge>
     <AsemblAge>-1</AsemblAge>
     <GenNumMethods>2</GenNumMethods>
     <SystemInit>true</SystemInit>
@@ -3376,7 +3376,7 @@
     <ExtraFile0>SDK\platform\osa\inc\fsl_os_abstraction_mqx.h</ExtraFile0>
     <ExtraFile1>SDK\platform\osa\inc\fsl_os_abstraction.h</ExtraFile1>
     <ExtraFile2>SDK\platform\osa\src\fsl_os_abstraction_mqx.c</ExtraFile2>
-    <InhrCompID_13>
+    <InhrCompID_29>
       <Generated>false</Generated>
       <GenCompName />
       <GenComponentVersion>??.???</GenComponentVersion>
@@ -3403,7 +3403,7 @@
       <GenSmartUserChangesDetected_Asembl>false</GenSmartUserChangesDetected_Asembl>
       <GenMethodPos>0</GenMethodPos>
       <GenExtraFilesCount>0</GenExtraFilesCount>
-    </InhrCompID_13>
+    </InhrCompID_29>
     <InhrCompID_14>
       <Generated>true</Generated>
       <GenCompName>mqx_ksdk</GenCompName>
@@ -4164,7 +4164,7 @@
         <HWTIMER_SYS_CancelCallback>true</HWTIMER_SYS_CancelCallback>
         <GenNumEvents>1</GenNumEvents>
         <Callback_Selected>0</Callback_Selected>
-        <Callback_Name />
+        <Callback_Name>fsl_hwtimer1_OnTimeOut</Callback_Name>
         <Callback_Priority>interrupts disabled</Callback_Priority>
         <GenSmartUserChangesDetected_Header>false</GenSmartUserChangesDetected_Header>
         <GenSmartUserChangesDetected_Code>false</GenSmartUserChangesDetected_Code>
