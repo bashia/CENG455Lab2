@@ -56,12 +56,15 @@ typedef struct server_message
    unsigned char                   DATA[5];
 } SERVER_MESSAGE, * SERVER_MESSAGE_PTR;
 
+
 extern _queue_id message_qid;
 extern _pool_id message_pool;
+extern int interrupt_occur = 0;
+
 
 /* Function prototypes */
-extern void server_task (uint32_t initial_data);
-extern void client_task (uint32_t initial_data);
+//extern void server_task (uint32_t initial_data);
+//extern void client_task (uint32_t initial_data);
 
 
 

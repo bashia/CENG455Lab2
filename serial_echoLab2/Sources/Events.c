@@ -53,6 +53,10 @@ extern "C" {
 //  bool            result;
 //  _task_id           task_id;
 
+//_queue_id message_qid;
+_pool_id message_pool;
+
+
 /* User includes (#include below this line is not maintained by Processor Expert) */
 
 /*
@@ -68,41 +72,31 @@ extern "C" {
 */
 void myUART_RxCallback(uint32_t instance, void * uartState)
 {
-	SERVER_MESSAGE_PTR msg_ptr;
-
-
-	bool            result;
   /* Write your code here ... */
-	//UART_DRV_SendData(myUART_IDX, myRxBuff, sizeof(myRxBuff));
+	SERVER_MESSAGE_PTR msg_ptr;
+	 _queue_id client_qid;
 
-		   //client_qid  = _msgq_open((_queue_number)(CLIENT_QUEUE_BASE), 0);
+	 client_qid = _msgq_open((_queue_number)(CLIENT_QUEUE_BASE), 0);
 
-//		   if (client_qid == 0) {
-//		      printf("\nCould not open a client message queue\n");
-//		     // _task_block();
-//		   }
+	 msg_ptr = (SERVER_MESSAGE_PTR) _msg_alloc(message_pool);
+	  if(msg_ptr == NULL){
+	  //printf("\nCould not allocate a message\n");
+	  //_mqx_exit(0);
 
-		   msg_ptr = (SERVER_MESSAGE_PTR)_msg_alloc(message_pool);
+	  }/* if */
+	  msg_ptr->HEADER.SOURCE_QID = client_qid;
+	  msg_ptr->HEADER.TARGET_QID = _msgq_get_id(0, SERVER_QUEUE);
+	  msg_ptr->HEADER.SIZE = sizeof(MESSAGE_HEADER_STRUCT) +
+	  strlen((char *)msg_ptr->DATA) + 1;
+	  msg_ptr->DATA[0] = (myRxBuff[0]);
+	  _msgq_send(msg_ptr);
 
-		   	      if (msg_ptr == NULL) {
-		   	         //printf("\nCould not allocate a message\n");
-		   	         //_task_block();
-		   	      }
 
-		      msg_ptr->HEADER.SOURCE_QID = message_qid;
-		        msg_ptr->HEADER.TARGET_QID = _msgq_get_id(0, SERVER_QUEUE);
-		        msg_ptr->HEADER.SIZE = sizeof(MESSAGE_HEADER_STRUCT) +
-		           strlen((char *)msg_ptr->DATA) + 1;
-		        msg_ptr->DATA[0] = (myRxBuff);
 
-		        result = _msgq_send(msg_ptr);
 
-		        if (result != TRUE) {
-		           //printf("\nCould not send a message\n");
-		           //_task_block();
-		        }
+	interrupt_occur = 1;
+	UART_DRV_SendData(myUART_IDX, myRxBuff, sizeof(myRxBuff));
 
-		        UART_DRV_SendData(myUART_IDX, myRxBuff, sizeof(myRxBuff));
 
 	return;
 }

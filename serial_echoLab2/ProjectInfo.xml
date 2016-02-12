@@ -404,6 +404,7 @@
       <PathName>C:\Users\cccarr\workspaces\Lab2\serial_echoLab2\Sources\Events.h</PathName>
       <PathName>C:\Users\cccarr\workspaces\Lab2\serial_echoLab2\Sources\os_tasks.h</PathName>
       <PathName>C:\Users\cccarr\workspaces\Lab2\serial_echoLab2\Sources\rtos_main_task.h</PathName>
+      <PathName>C:\Users\cccarr\workspaces\Lab2\serial_echoLab2\Sources\server.h</PathName>
     </GeneratedHs>
     <GeneratedASMs>
       <PathName>C:\Users\cccarr\workspaces\Lab2\serial_echoLab2\SDK\platform\devices\MK64F12\startup\gcc\startup_MK64F12.S</PathName>
