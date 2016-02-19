@@ -38,12 +38,12 @@
 #include <message.h>
 
 /* Number of clients */
-#define NUM_CLIENTS           (7)
+#define NUM_USERS           (7)
 #define FP_SYSTEM_QUEUE_BASE   2
 
 /* Task IDs */
 #define SERVER_TASK       5
-#define CLIENT_TASK       6
+#define USER_TASK       6
 
 /* Queue IDs */
 #define SERVER_QUEUE      8
@@ -57,7 +57,7 @@ typedef struct server_message
 } SERVER_MESSAGE, * SERVER_MESSAGE_PTR;
 
 
-extern _queue_id message_qid;
+//extern _queue_id message_qid;
 extern _pool_id message_pool;
 extern int interrupt_occur = 0;
 

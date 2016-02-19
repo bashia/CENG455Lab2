@@ -35,6 +35,7 @@
 #include <bsp.h>
 #include <message.h>
 #include "server.h"
+#include "accessfunctions.h"
 
 
 #ifdef __cplusplus
@@ -84,6 +85,7 @@ void myUART_RxCallback(uint32_t instance, void * uartState)
 	  //_mqx_exit(0);
 
 	  }/* if */
+	  write_qid = client_qid;
 	  msg_ptr->HEADER.SOURCE_QID = client_qid;
 	  msg_ptr->HEADER.TARGET_QID = _msgq_get_id(0, SERVER_QUEUE);
 	  msg_ptr->HEADER.SIZE = sizeof(MESSAGE_HEADER_STRUCT) +

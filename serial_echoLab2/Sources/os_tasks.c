@@ -29,17 +29,21 @@
 
 #include "Cpu.h"
 #include "Events.h"
-#include "rtos_main_task.h"
 #include "os_tasks.h"
 #include <mqx.h>
 #include <message.h>
-#include "server.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif 
 
+
+
+
 /* User includes (#include below this line is not maintained by Processor Expert) */
+#include "server.h"
+#include "accessfunctions.h"
+
 
 /*
 ** ===================================================================
@@ -67,12 +71,31 @@ void serial_task(os_task_param_t task_init_data)
 	int numencoding;
 
 	SERVER_MESSAGE_PTR msg_ptr;
+	 _task_id           task_id;
 	 _queue_id server_qid;
+
 	 /* Open a message queue: */
 	 server_qid = _msgq_open(SERVER_QUEUE, 0);
 	 /* Create a message pool: */
 	 message_pool = _msgpool_create(sizeof(SERVER_MESSAGE),
-	 NUM_CLIENTS, 0, 0);
+	 NUM_USERS, 0, 0);
+
+	 if (message_pool == MSGPOOL_NULL_POOL_ID) {
+	      printf("\nCount not create a message pool\n");
+	      //_task_block();
+	   }
+
+
+	 for (int j = 0; j < NUM_USERS; j++)
+	 {
+	    task_id = _task_create(0, USER_TASK, j); //(uint32_t)
+
+	    if (task_id == 0)
+	    {
+		   printf("\nCould not create a User task\n");
+		       //_task_block();
+		}
+	}
 
 
 	printf("serialTask Created!\n\r");
@@ -88,40 +111,58 @@ void serial_task(os_task_param_t task_init_data)
 
 	if (interrupt_occur == 1)
 	{
+		int openreader = 0;
 		//Check if open for read
-
-
-		msg_ptr = _msgq_receive(server_qid, 0);
-		numencoding = (int)msg_ptr->DATA[0];
-
-		interrupt_occur = 0;
-
-		/*Check if valid ASCII character*/ // ^U=21 ^H=8 ^W=23
-		if ((numencoding > 31) && (numencoding < 127))
+		for (int i = 0; i < PERMLEN; i++)
 		{
-			printf("%c", msg_ptr->DATA[0]);
-		}
-		else
-		{
-			switch(numencoding){
-			case 8: // 8=^H Erase Prev Word
-
-				break;
-			case 13: // 13= New Line (Enter)
-				printf("\n");
-				break;
-			case 21: // 21=^U Erase Line
-				printf("\33[2K\r");  //VT100 escape code
-				break;
-
-			case 23: //8=^H Erase Character
-				printf("\b \b");
-
+			/*Check if tasks are open for reading */
+			if (readpermission[i] > 0)
+			{
+				openreader = 1;
 				break;
 			}
 		}
 
-		_msg_free(msg_ptr);
+		/*If no tasks are open for reading Reloop*/
+		if (openreader == 1)
+		{
+			/*Recieve message */
+			msg_ptr = _msgq_receive(server_qid, 0);
+			numencoding = (int)msg_ptr->DATA[0];
+
+			interrupt_occur = 0;
+
+			/*Check if valid ASCII character*/ // ^U=21 ^H=8 ^W=23
+			if ((numencoding > 31) && (numencoding < 127))
+			{
+				printf("%c", msg_ptr->DATA[0]);
+			}
+			else
+			{
+				switch(numencoding)
+				{
+				case 8: // 8=^H Erase Character
+					printf("\b \b");
+					break;
+				case 13: // 13= New Line (Enter)
+					printf("\n");
+					//get_line
+					break;
+				case 21: // 21=^U Erase Line
+					printf("\33[2K\r");  //VT100 escape code
+					break;
+
+				case 23: //8=^W Erase Word
+
+
+					break;
+				}
+			}
+		}
+			_msg_free(msg_ptr);
+		//}
+
+
 	}
 	//
     /* Write your code here ... */
@@ -142,13 +183,12 @@ void serial_task(os_task_param_t task_init_data)
     
     OSA_TimeDelay(10);                 /* Example code (for task release) */
    
-    
-    
-    
-#ifdef PEX_USE_RTOS   
+
+#ifdef PEX_USE_RTOS
 }
-#endif    
+#endif
 }
+
 
 /* END os_tasks */
 
